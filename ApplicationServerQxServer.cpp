@@ -13,17 +13,16 @@ QString ApplicationServerQxServer::getName() const
     return "QxServer";
 }
 
-QHttpServerResponse ApplicationServerQxServer::execute(const QHttpServerRequest *request, ApplicationServerInterface *app)
+void ApplicationServerQxServer::execute(qx::QxHttpRequest  & request, qx::QxHttpResponse & response, ApplicationServerInterface * app)
 {
-	QHttpServerResponse * response = nullptr;
 	QJsonObject bodyJSON;
 	QJsonParseError parseError;
-	bodyJSON = QJsonDocument::fromJson(request->body(), &parseError).object();
+	bodyJSON = QJsonDocument::fromJson(request.data(), &parseError).object();
 	qDebug() << parseError.errorString();
 	qx::QxRestApi restApi;
 
     QVariant result;
-    QHttpServerResponse::StatusCode statusCode = QHttpServerResponse::StatusCode::Ok;
+    int statusCode = 200;
     try{
     result = restApi.processRequest(bodyJSON);
 
@@ -31,28 +30,27 @@ QHttpServerResponse ApplicationServerQxServer::execute(const QHttpServerRequest 
 
     	qDebug() << oex.what();
     	result = "Error";
-    	statusCode = QHttpServerResponse::StatusCode::NotFound;
+    	statusCode = 404;
     }
     switch (result.type())
     {
     case QMetaType::QJsonObject:
-    	response = new QHttpServerResponse(result.toJsonObject());
+    	response.data() = QJsonDocument(result.toJsonObject()).toJson();
         break;
     case QMetaType::QJsonValue:
-    	response = new QHttpServerResponse(result.toJsonValue().toObject());
+    	response.data() = QJsonDocument(result.toJsonObject()).toJson();
         break;
     default:
     	QString resultString = result.toString();
     	if(resultString.startsWith("XML:")){
     		resultString = resultString.remove(0,4);
-        	response = new QHttpServerResponse(QByteArrayLiteral("application/xml"), resultString.toUtf8());
+        	response.data() = resultString.toUtf8();
     	}else{
-        	response = new QHttpServerResponse(resultString);
+        	response.data() = resultString.toUtf8();
     	}
         break;
     }
-    QHttpServerResponse resp = QHttpServerResponse(response->mimeType(), response->data(),statusCode);
-    return resp;
+    response.status() = statusCode;
 }
 
 QString ApplicationServerQxServer::getRoute(ApplicationServerInterface *app)

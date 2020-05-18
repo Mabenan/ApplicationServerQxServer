@@ -20,13 +20,12 @@ file(GLOB HEADER
 add_library(${target} SHARED ${SRC})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 find_package(Qt5Core REQUIRED)
-find_package(Qt5HttpServer REQUIRED)
 find_package(Qt5Xml REQUIRED)
 if(${PACKAGE})
 find_package(ApplicationServer)
 find_package(ODataServer)
 endif()
-qt5_use_modules(${target} Core HttpServer Xml)
+qt5_use_modules(${target} Core Xml)
 target_include_directories(${target} PUBLIC 
  PUBLIC 
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

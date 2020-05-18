@@ -14,7 +14,7 @@ private:
 public:
      QString getName() const;
      QString getRoute(ApplicationServerInterface * app);
-     QHttpServerResponse execute(const QHttpServerRequest * request, ApplicationServerInterface * app);
+     void execute(qx::QxHttpRequest  & request, qx::QxHttpResponse & response, ApplicationServerInterface * app);
 };
 
 #endif // ODATAWEBHANDLER_H
