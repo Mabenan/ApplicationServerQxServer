@@ -3,6 +3,7 @@ if(NOT CMAKE_PROJECT_NAME)
 project(${target} LANGUAGES CXX)
 endif()
 
+include(../QxOrm/QxOrm.cmake)
 add_definitions(-DAPPLICATIONSERVERQXSERVER_LIBRARY)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -36,13 +37,9 @@ target_precompile_headers(${target}
   "ApplicationServerQxServer.Precompiled.h"
  )
 target_link_libraries(${target} ApplicationServerCore ApplicationServerInterface)
-install(TARGETS ${target} EXPORT ${target} 
+install(TARGETS ${target}
 LIBRARY DESTINATION "${LIB_FOLDER}"
     ARCHIVE DESTINATION "${LIB_FOLDER}"
     RUNTIME DESTINATION "${PLUGIN_FOLDER}/server"
     INCLUDES DESTINATION "${INCLUDE_FOLDER}")
-install(
-  EXPORT ${target} 
-  DESTINATION ${LIB_FOLDER}
-  )
 install(FILES ${HEADER} DESTINATION ${INCLUDE_FOLDER})
