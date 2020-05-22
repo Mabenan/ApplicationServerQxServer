@@ -16,8 +16,8 @@ public:
 private:
     // CommandInterface interface
 public:
-    void init(ApplicationServerInterface *app);
-	virtual void install(ApplicationServerInterface *app);
+    void init(ApplicationServerInterface *app) override;
+	void install(ApplicationServerInterface *app) override;
 };
 
 #endif // ODataPlugin_H

@@ -12,9 +12,9 @@ public:
 
 private:
 public:
-     QString getName() const;
-     QString getRoute(ApplicationServerInterface * app);
-     void execute(qx::QxHttpRequest  & request, qx::QxHttpResponse & response, ApplicationServerInterface * app);
+     QString getName() const override;
+     QString getRoute(ApplicationServerInterface * app) override;
+     void execute(qx::QxHttpRequest  & request, qx::QxHttpResponse & response, ApplicationServerInterface * app) override;
 };
 
 #endif // ODATAWEBHANDLER_H
