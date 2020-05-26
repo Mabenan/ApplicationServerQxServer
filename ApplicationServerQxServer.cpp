@@ -35,7 +35,7 @@ void ApplicationServerQxServer::execute(qx::QxHttpRequest &request,
     break;
   default:
     QString resultString = result.toString();
-    if (resultString.startsWith(QString::fromLatin1("XML:"))) {
+    if (resultString.startsWith(QLatin1String("XML:"))) {
       resultString = resultString.remove(0, 4);
       response.data() = resultString.toUtf8();
     } else {
@@ -48,5 +48,5 @@ void ApplicationServerQxServer::execute(qx::QxHttpRequest &request,
 
 QString
 ApplicationServerQxServer::getRoute(ApplicationServerInterface * /*app*/) {
-  return QString::fromLatin1("/qx");
+  return QStringLiteral("/qx");
 }
