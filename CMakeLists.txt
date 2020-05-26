@@ -26,16 +26,16 @@ find_package(ApplicationServer)
 find_package(ODataServer)
 endif()
 qt5_use_modules(${target} Core Xml)
-target_include_directories(${target} PUBLIC 
- PUBLIC 
+target_include_directories(${target} PUBLIC
+ PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:${INCLUDE_FOLDER}>
-)    
+)
 target_precompile_headers(${target}
  PUBLIC
   "ApplicationServerQxServer.Precompiled.h"
  )
-target_link_libraries(${target} ApplicationServerCore ApplicationServerInterface)
+target_link_libraries(${target} ApplicationServerInterface QxOrm)
 install(TARGETS ${target}
 LIBRARY DESTINATION "${LIB_FOLDER}"
     ARCHIVE DESTINATION "${LIB_FOLDER}"

@@ -2,7 +2,7 @@
 #define ApplicationServerQxServer_H
 
 #include <WebInterface.h>
-#include "ApplicationServerCore_global.h"
+#include "ApplicationServerQxServer_global.h"
 
 class ApplicationServerQxServer : public WebInterface
 {
