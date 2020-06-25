@@ -18,7 +18,7 @@ void ApplicationServerQxServer::execute(qx::QxHttpRequest &request,
   qDebug() << parseError.errorString();
   qx::QxRestApi restApi;
 
-  QVariant result;
+  QJsonValue result;
   int statusCode = 200;
   try {
     result = restApi.processRequest(bodyJSON);
@@ -26,23 +26,10 @@ void ApplicationServerQxServer::execute(qx::QxHttpRequest &request,
   } catch (std::exception &oex) {
 
     qDebug() << oex.what();
-    result = "Error";
+    response.data() = "Error";
     statusCode = 404;
   }
-  switch (result.type()) {
-  case QMetaType::QJsonObject:
-    response.data() = QJsonDocument(result.toJsonObject()).toJson();
-    break;
-  default:
-    QString resultString = result.toString();
-    if (resultString.startsWith(QLatin1String("XML:"))) {
-      resultString = resultString.remove(0, 4);
-      response.data() = resultString.toUtf8();
-    } else {
-      response.data() = resultString.toUtf8();
-    }
-    break;
-  }
+  response.data() = QJsonDocument(result.toObject()).toJson();
   response.status() = statusCode;
 }
 
