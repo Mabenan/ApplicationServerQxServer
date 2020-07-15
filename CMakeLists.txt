@@ -34,10 +34,12 @@ target_include_directories(${target} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:${INCLUDE_FOLDER}>
 )
+if(COMMAND target_precompile_headers)
 target_precompile_headers(${target}
  PUBLIC
   "ApplicationServerQxServer.Precompiled.h"
  )
+ endif()
 target_link_libraries(${target} ApplicationServerInterface QxOrm)
 install(TARGETS ${target}
 LIBRARY DESTINATION "${LIB_FOLDER}"
